@@ -64,7 +64,7 @@ Users can add snacks and view the total price. The backend calculates the final 
 ## ✅ Payment Successful
 After successful payment, the system generates a unique transaction ID and confirms the booking.
 
-![Payment Success](Payment-sucessfull.png)
+![Payment Success](payment-sucessfull.png)
 
 ---
 
