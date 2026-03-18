@@ -1,0 +1,205 @@
+/* ================== General ================== */
+body {
+  font-family: Arial, sans-serif;
+  margin:0;
+  padding:0;
+  background:#f2f2f2;
+}
+
+.site-header, .site-footer {
+  background:#333;
+  color:#fff;
+  text-align:center;
+  padding:1em 0;
+}
+
+.container {
+  max-width:1000px;
+  margin:20px auto;
+  padding:0 20px;
+}
+
+h1, h2, h3 {
+  margin:0.5em 0;
+}
+
+/* ================== Index Page ================== */
+.movie-grid {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.movie-card {
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  width:220px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+
+.movie-card img {
+  width:100%;
+  border-radius:10px;
+}
+
+.showtimes {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  justify-content:center;
+}
+
+.btn {
+  display:inline-block;
+  padding:8px 12px;
+  background:#ff3c3c;
+  color:#fff;
+  text-decoration:none;
+  border-radius:5px;
+  margin-top:5px;
+  font-size:0.9em;
+}
+
+.btn:hover {
+  background:#e63636;
+}
+
+/* ================== Movie Info Sections ================== */
+.movie-info {
+  display:flex;
+  gap:20px;
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+  align-items:center;
+}
+
+.movie-info img {
+  width:150px;
+  border-radius:10px;
+}
+
+.details h2 {
+  margin-bottom:10px;
+}
+
+/* ================== Theater Layout ================== */
+.seats-grid {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 20px;
+  perspective: 800px; /* Adds 3D perspective */
+}
+
+/* Each row is a flex container to curve rows slightly */
+.seats-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  transform-origin: center;
+}
+
+/* Premium row spacing bigger */
+.seats-row.premium {
+  margin-bottom: 20px;
+}
+
+/* Seat style */
+.seat {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  background: #ccc;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  transform: rotateX(10deg); /* slight 3D tilt */
+  transition: transform 0.3s, background 0.3s;
+  position: relative;
+}
+
+.seat:hover {
+  transform: rotateX(15deg) scale(1.1);
+}
+
+.seat.selected {
+  background: #28a745;
+  color: #fff;
+}
+
+.seat.booked {
+  background: #555;
+  cursor: not-allowed;
+  color: #fff;
+}
+
+/* Premium / Mid / Regular */
+.seat.premium { background: gold; width:55px; height:55px; }
+.seat.mid { background: orange; width:50px; height:50px; }
+.seat.regular { background: lightblue; width:45px; height:45px; }
+
+/* Seat tooltip (already implemented) */
+.seat:hover::after {
+  content: attr(data-type) " - ₹" attr(data-price);
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 1;
+}
+/* ================== Theater Screen ================== */
+.seats-screen {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  font-size: 1.4em;
+  color: #fff;
+  background: #333;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+  transform: rotateX(2deg) translateY(-5px); /* optional slight 3D tilt */
+}
+/* ================== 3D Theater ================== */
+.theater {
+  perspective: 1000px; /* perspective affects child elements */
+  margin-bottom: 20px;
+}
+
+.seats-screen {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  font-size: 1.4em;
+  color: #fff;
+  background: #333;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+  transform: rotateX(10deg); /* slight tilt for 3D */
+  transform-origin: bottom center;
+}
+
+.seats-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  transform-origin: center;
+  transform: rotateX(5deg); /* tilt rows slightly for 3D */
+}

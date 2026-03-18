@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Page</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <h1>💳 Payment Checkout</h1>
+  </header>
+
+  <main class="container">
+    <section class="movie-info">
+      <img id="poster" src="" alt="Movie Poster"/>
+      <div class="details">
+        <h2 id="movie-name"></h2>
+        <p id="movie-time"></p>
+        <p>Seats: <span id="selected-seats"></span></p>
+        <p>Total Price: ₹<span id="total-price"></span></p>
+      </div>
+    </section>
+
+    <section class="payment-form">
+      <h3>Enter Payment Details</h3>
+      <label>Name on Card:</label>
+      <input type="text" id="name" placeholder="John Doe"/>
+      <label>Account Number:</label>
+      <input type="text" id="account" placeholder="1234 5678 9012 3456"/>
+      <label>CVV:</label>
+      <input type="password" id="cvv" placeholder="123"/>
+      <button id="pay-btn" class="btn">Pay Now</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Movie Booking Project</p>
+  </footer>
+
+  // Payment.html: Update the existing script tag content
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const movieName = params.get('movie');
+    const movieTime = params.get('time');
+    const poster = params.get('poster');
+    cont price =parseInt(params.get('price'));
+    const seats = params.get('seats');
+    
+    // Use grandTotal from the URL
+    const grandTotal = params.get('grandTotal'); 
+    
+    // NOTE: Showtime ID is not passed from index.html. You should pass a unique ID 
+    // instead of the time if your server requires a 'Showtime ID'.
+    // For now, we'll use a combination of movie and time as a pseudo-ID:
+    const showtimeID = `${movieName}-${movieTime}`; 
+
+    // ... (rest of the display code) ...
+    document.getElementById('poster').src = poster;
+    document.getElementById('movie-name').textContent = movieName;
+    document.getElementById('movie-time').textContent = movieTime;
+    document.getElementById('selected-seats').textContent = seats;
+    document.getElementById('total-price').textContent = seats.split(',').length * price;
+
+    document.getElementById('total-price').textContent = grandTotal;
+    
+    document.getElementById('pay-btn').addEventListener('click', async ()=>{
+        const name = document.getElementById('name').value;
+        const account = document.getElementById('account').value;
+        const cvv = document.getElementById('cvv').value;
+        if(!name || !account || !cvv){
+            alert('Please fill all payment fields.');
+            return;
+        }
+
+        // --- NEW SERVER LOGIC ---
+        try {
+            const response = await fetch('http://localhost:3000/api/pay', { // Adjust URL if needed
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    showtimeID: showtimeID, // Pass the ID
+                    seats: seats,
+                    totalAmount: parseInt(grandTotal), // Pass the amount as a number
+                    // You might also send card details, but they should be handled securely
+                })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                alert('Payment Successful!');
+                const txnID = result.txnID || 'TXN' + Math.floor(Math.random() * 90000000 + 10000000); 
+                
+                // Redirect to confirmation page
+                window.location.href = `confirmation.html?movie=${encodeURIComponent(movieName)}&time=${encodeURIComponent(movieTime)}&poster=${encodeURIComponent(poster)}&price=${grandTotal}&seats=${encodeURIComponent(seats)}&txn=${txnID}`;
+
+            } else {
+                alert('Payment Failed: ' + (result.message || 'Server error.'));
+            }
+        } catch (error) {
+            console.error('Payment request error:', error);
+            alert('A network error occurred during payment.');
+        }
+        // --- END NEW SERVER LOGIC ---
+    });
+</script>
+<script src="payment.js"></script>
+<script src="script.js"></script>
+
+
+</body>
+</html>

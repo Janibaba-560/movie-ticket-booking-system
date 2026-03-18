@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Online Movie Ticket Booking</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header class="site-header">
+  <h1>🎬 Online Movie Ticket Booking</h1>
+  <p>Select a movie, rating, and showtime.</p>
+</header>
+
+<main class="container">
+  <section class="movie-grid">
+    <!-- Movie 1 -->
+    <article class="movie-card">
+      <img src="images/poster1.jpg" alt="Avengers: Endgame Poster" />
+      <h3>Avengers: Endgame</h3>
+      <p>Rating: ⭐ 4.8/5</p>
+      <p>Showtimes:</p>
+      <div class="showtimes"></div>
+    </article>
+
+    <!-- Movie 2 -->
+    <article class="movie-card">
+      <img src="images/poster2.jpg" alt="Spider-Man: No Way Home Poster" />
+      <h3>Spider-Man: No Way Home</h3>
+      <p>Rating: ⭐ 4.6/5</p>
+      <p>Showtimes:</p>
+      <div class="showtimes"></div>
+    </article>
+
+    <!-- Movie 3 -->
+    <article class="movie-card">
+      <img src="images/poster3.jpg" alt="Inception Poster" />
+      <h3>Inception</h3>
+      <p>Rating: ⭐ 4.7/5</p>
+      <p>Showtimes:</p>
+      <div class="showtimes"></div>
+    </article>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2025 Movie Booking Project</p>
+</footer>
+
+<script>
+  // Redirect to booking page with showtime info
+  function bookNow(movieTitle, showtimeId, time, poster, basePrice) {
+    const url = `booking.html?movie=${encodeURIComponent(movieTitle)}&time=${encodeURIComponent(time)}&poster=${encodeURIComponent(poster)}&price=${basePrice}&showtimeId=${encodeURIComponent(showtimeId)}`;
+    window.location.href = url;
+  }
+
+  // Movie data and showtime buttons
+  const movies = [
+    {
+      title: "Avengers: Endgame",
+      poster: "images/poster1.jpg",
+      price: 500,
+      showtimes: [
+        { id: "68fca2508097e37f20ad4c8d", time: "6:00 PM" },
+        { id: "68fca2508097e37f20ad4c9", time: "8:30 PM" },
+        { id: "68fca2508097e37f20ad4ca", time: "11:00 PM" }
+      ]
+    },
+    {
+      title: "Spider-Man: No Way Home",
+      poster: "images/poster2.jpg",
+      price: 500,
+      showtimes: [
+        { id: "68fca2508097e37f20ad4cb", time: "5:30 PM" },
+        { id: "68fca2508097e37f20ad4cc", time: "8:00 PM" },
+        { id: "68fca2508097e37f20ad4cd", time: "10:30 PM" }
+      ]
+    },
+    {
+      title: "Inception",
+      poster: "images/poster3.jpg",
+      price: 500,
+      showtimes: [
+        { id: "68fca2508097e37f20ad4ce", time: "6:45 PM" },
+        { id: "68fca2508097e37f20ad4cf", time: "9:15 PM" },
+        { id: "68fca2508097e37f20ad4d0", time: "11:45 PM" }
+      ]
+    }
+  ];
+
+  // Populate showtime buttons dynamically
+  document.querySelectorAll(".movie-card").forEach((card, idx) => {
+    const showtimesDiv = card.querySelector(".showtimes");
+    movies[idx].showtimes.forEach(st => {
+      const btn = document.createElement("button");
+      btn.className = "btn";
+      btn.textContent = st.time;
+      btn.addEventListener("click", () => {
+        bookNow(movies[idx].title, st.id, st.time, movies[idx].poster, movies[idx].price);
+      });
+      showtimesDiv.appendChild(btn);
+    });
+  });
+</script>
+</body>
+</html>
